@@ -9,8 +9,60 @@
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
 
-<body>
+<body class="bg-dark">
+    <div class="container">
+        <div class="header mt-4">
+            <h1 class="text-light">Flight Schedule</h1>
+        </div>
+        <div id="clock" class="mt-1 text-light"></div>
 
+        <section class="incoming mt-3">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Arrivals</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Airline</th>
+                                <th scope="col">Flight No.</th>
+                                <th scope="col">Arriving From</th>
+                                <th scope="col">Scheduled Arrival Time</th>
+                                <th scope="col">Expected Arrival Time</th>
+                                <th scope="col">Gate</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="arrivals-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section class="outbound mt-3">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Departures</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Airline</th>
+                                <th scope="col">Flight No.</th>
+                                <th scope="col">Departing To</th>
+                                <th scope="col">Scheduled Departure Time</th>
+                                <th scope="col">Expected Departure Time</th>
+                                <th scope="col">Gate</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="departures-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
     <script>window.onload = init</script>
 </body>
 
