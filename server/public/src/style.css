@@ -1,0 +1,14 @@
+body {
+    background-color: #f7f7f7 !important;
+}
+
+div.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+div.card-body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
