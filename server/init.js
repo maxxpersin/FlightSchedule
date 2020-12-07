@@ -19,7 +19,10 @@ async function main() {
 
     let savedDepartures = await initDepartures();
     console.log(savedDepartures);
-    
+
+    await initTimes();
+    //console.log(savedAll);
+
     process.exit();
 }
 
@@ -206,7 +209,7 @@ async function initDepartures() {
         {
             airline: 'Southwest',
             num: 'S 278',
-            arrivingFrom: 'PHX',
+            departingTo: 'PHX',
             schedTime: {
                 hour1: 1,
                 hour2: 4,
@@ -225,4 +228,51 @@ async function initDepartures() {
     ];
 
     return await Departure.insertMany(departureArr);
+}
+
+async function initTimes() {
+    let foundArrivals = await Arrival.find({}).catch(error => { });
+    let foundDepartures = await Departure.find({}).catch(error => { });
+
+    for (a of foundArrivals) {
+        let time = new Date();
+
+        if (a.status !== 'Landed') {
+            if ((time.getHours() * 100) + (time.getMinutes()) >= (a.expectedTime.hour1 * 1000) + (a.expectedTime.hour2 * 100) + (a.expectedTime.min1 * 10) + (a.expectedTime.min2)) { // Current time is passed expected time
+                a.status = 'Landed';
+            } else {
+                switch (getRandomInt(1, 5)) {
+                    case 1:
+                        a.expectedTime.min1 += 1;
+                        a.status = 'Delayed';
+                        break;
+                }
+            }
+            await a.save().catch(error => { });
+        }
+    }
+
+    for (d of foundDepartures) {
+        let time = new Date();
+
+        if (d.status !== 'Departed') {
+            if ((time.getHours() * 100) + (time.getMinutes()) >= (d.expectedTime.hour1 * 1000) + (d.expectedTime.hour2 * 100) + (d.expectedTime.min1 * 10) + (d.expectedTime.min2)) { // Current time is passed expected time
+                d.status = 'Departed';
+            } else {
+                switch (getRandomInt(1, 5)) {
+                    case 1:
+                        d.expectedTime.min1 += 1;
+                        d.status = 'Delayed';
+                        break;
+                }
+            }
+            await d.save().catch(error => { });
+        }
+    }
+}
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 }

@@ -22,79 +22,29 @@ function initFlights(data) {
 
     arrivals.forEach(arrival => {
         arrivalBody.appendChild(document.createElement('tr'));
+        arrivalBody.lastChild.classList.add(arrival.status == 'Delayed' ? 'text-danger' : (arrival.status == 'On-Time' ? 'text-success' : 'text-warning'))
         arrivalBody.lastChild
-            .innerHTML = `<td class="text-${arrival.status == 'Delayed' ? 'danger' : 'black'}">${arrival.airline}</td>
-            <td class="text-${arrival.status == 'Delayed' ? 'danger' : 'black'}">${arrival.num}</td>
-            <td class="text-${arrival.status == 'Delayed' ? 'danger' : 'black'}">${arrival.arrivingFrom}</td>
-            <td class="text-${arrival.status == 'Delayed' ? 'danger' : 'black'}">${arrival.schedTime.hour1}${arrival.schedTime.hour2}:${arrival.schedTime.min1}${arrival.schedTime.min2}</td>
-            <td class="text-${arrival.status == 'Delayed' ? 'danger' : 'black'}">${arrival.expectedTime.hour1}${arrival.expectedTime.hour2}:${arrival.expectedTime.min1}${arrival.expectedTime.min2}</td>
-            <td class="text-${arrival.status == 'Delayed' ? 'danger' : 'black'}">${arrival.gate}</td>
-            <td class="text-${arrival.status == 'Delayed' ? 'danger' : 'black'}">${arrival.status}</td>`
+            .innerHTML = `<td>${arrival.airline}</td>
+            <td>${arrival.num}</td>
+            <td>${arrival.arrivingFrom}</td>
+            <td>${arrival.schedTime.hour1}${arrival.schedTime.hour2}:${arrival.schedTime.min1}${arrival.schedTime.min2}</td>
+            <td>${arrival.expectedTime.hour1}${arrival.expectedTime.hour2}:${arrival.expectedTime.min1}${arrival.expectedTime.min2}</td>
+            <td>${arrival.gate}</td>
+            <td>${arrival.status}</td>`
     });
 
     departures.forEach(departure => {
         departureBody.appendChild(document.createElement('tr'));
+        departureBody.lastChild.classList.add(departure.status == 'Delayed' ? 'text-danger' : (departure.status == 'On-Time' ? 'text-success' : 'text-warning'))
         departureBody.lastChild
-            .innerHTML = `<td class="text-${departure.status == 'Delayed' ? 'danger' : 'black'}">${departure.airline}</td>
-            <td class="text-${departure.status == 'Delayed' ? 'danger' : 'black'}">${departure.num}</td>
-            <td class="text-${departure.status == 'Delayed' ? 'danger' : 'black'}">${departure.departingTo}</td>
-            <td class="text-${departure.status == 'Delayed' ? 'danger' : 'black'}">${departure.schedTime.hour1}${departure.schedTime.hour2}:${departure.schedTime.min1}${departure.schedTime.min2}</td>
-            <td class="text-${departure.status == 'Delayed' ? 'danger' : 'black'}">${departure.expectedTime.hour1}${departure.expectedTime.hour2}:${departure.expectedTime.min1}${departure.expectedTime.min2}</td>
-            <td class="text-${departure.status == 'Delayed' ? 'danger' : 'black'}">${departure.gate}</td>
-            <td class="text-${departure.status == 'Delayed' ? 'danger' : 'black'}">${departure.status}</td>`
-    })
-
-    // for (let i = 0; i < 10; i++) {
-    //     arrivals.push(new Arrival({
-    //         airline: 'American Airlines',
-    //         num: 'A 10',
-    //         arrivingFrom: 'LAX',
-    //         schedTime: '10:00',
-    //         expectedTime: '10:10',
-    //         gate: 'C19',
-    //         status: 'On Time'
-    //     }));
-
-    //     if (i == 5) {
-    //         arrival.status = "Delayed";
-    //     }
-
-    //     arrivalBody.appendChild(document.createElement('tr'));
-    //     arrivalBody.lastChild
-    //         .innerHTML = `<td class="text-${arrival.status == 'Delayed' ? 'danger' : 'black'}">${arrival.airline}</td>
-    //         <td class="text-${arrival.status == 'Delayed' ? 'danger' : 'black'}">${arrival.num}</td>
-    //         <td class="text-${arrival.status == 'Delayed' ? 'danger' : 'black'}">${arrival.arrivingFrom}</td>
-    //         <td class="text-${arrival.status == 'Delayed' ? 'danger' : 'black'}">${arrival.schedTime}</td>
-    //         <td class="text-${arrival.status == 'Delayed' ? 'danger' : 'black'}">${arrival.expectedTime}</td>
-    //         <td class="text-${arrival.status == 'Delayed' ? 'danger' : 'black'}">${arrival.gate}</td>
-    //         <td class="text-${arrival.status == 'Delayed' ? 'danger' : 'black'}">${arrival.status}</td>`
-    // }
-
-    // for (let i = 0; i < 10; i++) {
-    //     departures.push(new Departure({
-    //         airline: 'American Airlines',
-    //         num: 'Z 778',
-    //         departingTo: 'MKE',
-    //         schedTime: '15:00',
-    //         expectedTime: '15:00',
-    //         gate: 'A9',
-    //         status: 'On Time'
-    //     }));
-
-    //     if (i == 5) {
-    //         departure.status = "Delayed";
-    //     }
-
-    //     departureBody.appendChild(document.createElement('tr'));
-    //     departureBody.lastChild
-    //         .innerHTML = `<td class="text-${departure.status == 'Delayed' ? 'danger' : 'black'}">${departure.airline}</td>
-    //         <td class="text-${departure.status == 'Delayed' ? 'danger' : 'black'}">${departure.num}</td>
-    //         <td class="text-${departure.status == 'Delayed' ? 'danger' : 'black'}">${departure.departingTo}</td>
-    //         <td class="text-${departure.status == 'Delayed' ? 'danger' : 'black'}">${departure.schedTime}</td>
-    //         <td class="text-${departure.status == 'Delayed' ? 'danger' : 'black'}">${departure.expectedTime}</td>
-    //         <td class="text-${departure.status == 'Delayed' ? 'danger' : 'black'}">${departure.gate}</td>
-    //         <td class="text-${departure.status == 'Delayed' ? 'danger' : 'black'}">${departure.status}</td>`
-    // }
+            .innerHTML = `<td>${departure.airline}</td>
+            <td>${departure.num}</td>
+            <td>${departure.departingTo}</td>
+            <td>${departure.schedTime.hour1}${departure.schedTime.hour2}:${departure.schedTime.min1}${departure.schedTime.min2}</td>
+            <td>${departure.expectedTime.hour1}${departure.expectedTime.hour2}:${departure.expectedTime.min1}${departure.expectedTime.min2}</td>
+            <td>${departure.gate}</td>
+            <td>${departure.status}</td>`
+    });
 }
 
 function onTimeChange(time) { //Does all my updating
