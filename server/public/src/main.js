@@ -1,9 +1,16 @@
-var clock, clock2, departureBody, arrivalBody, arrivals = [], departures = [];
+var clock, clock2, departureBody, arrivalBody, arrivals = [], departures = [], setTime = '', clockInterval, incoming, outbound;
+
+var currScreen = 0;
 
 function init() {
+    incoming = document.getElementById('incoming');
+    outbound = document.getElementById('outbound');
+    outbound.style.display = 'none';
+
     clock = document.getElementById('clock');
     clock2 = document.getElementById('clock2');
-    setInterval(renderTime, 1000);
+
+    clockInterval = setInterval(renderTime, 1000);
 
     departureBody = document.getElementById('departures-body');
     arrivalBody = document.getElementById('arrivals-body');
@@ -17,6 +24,9 @@ function init() {
 }
 
 function initFlights(data) {
+
+    arrivalBody.innerHTML = '';
+
     arrivals = data.arrivals;
     departures = data.departures;
 
@@ -32,6 +42,8 @@ function initFlights(data) {
             <td>${arrival.gate}</td>
             <td>${arrival.status}</td>`
     });
+
+    departureBody.innerHTML = '';
 
     departures.forEach(departure => {
         departureBody.appendChild(document.createElement('tr'));
@@ -65,7 +77,62 @@ function renderTime() {
         second: 'numeric',
         hour12: false
     });
+
+    if (time.getSeconds() % 15 == 0) {
+        fetch('http://localhost:3000/api/v1/flights')
+        .then(response => response.json())
+        .then(data => {
+            initFlights(data);
+        });
+    }
 }
+
+function renderCustom() {
+    clock.textContent = setTime;
+    clock2.textContent = setTime;
+
+    if (Number(setTime.split(':')[2]) % 15 == 0) {
+        fetch(`http://localhost:3000/api/v1/flights?t=${setTime}`)
+        .then(response => response.json())
+        .then(data => {
+            initFlights(data);
+        });
+    }
+
+    let sections = setTime.split(':');
+    sections[2] = Number(sections[2]) + 1;
+    if (sections[2] <= 9) {
+        sections[2] = `0${sections[2]}`;
+    } else if (sections[2] == 60) {
+        sections[2] = '00';
+        sections[1] = Number(sections[1]) + 1;
+
+        if (sections[1] <= 9) {
+            sections[1] = `0${sections[1]}`
+        } else if (sections[1] == 60) {
+            sections[1] = '00';
+            sections[0] = Number(sections[0]) + 1;
+
+            if (sections[0] <= 9) {
+                sections[0] = `0${sections[0]}`
+            } else if (sections[0] == 24) {
+                sections[0] = '00';
+            }
+        }
+    }
+
+    setTime = `${sections[0]}:${sections[1]}:${sections[2]}`;
+}
+
+function showOutbound() {
+    incoming.style.display = 'none';
+    outbound.style.display = 'block';
+}
+
+function showIncoming() {
+    outbound.style.display = 'none';
+    incoming.style.display = 'block';
+}   
 
 class Arrival {
     airline;
@@ -98,4 +165,11 @@ class Departure {
 function closeHeader() {
     document.getElementById('nav').style.display = 'none';
 
+}
+
+function forward(newTime) {
+    setTime = newTime + ':00';
+    clearInterval(clockInterval);
+    
+    setInterval(renderCustom, 1000);
 }

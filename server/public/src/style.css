@@ -12,3 +12,13 @@ div.card-body {
     margin: 0 !important;
     padding: 0 !important;
 }
+
+div.btn-container {
+    display: flex;
+
+}
+
+button.selector {
+    margin: auto;
+    margin-top: 8px;
+}

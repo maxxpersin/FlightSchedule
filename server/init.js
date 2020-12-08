@@ -136,15 +136,15 @@ async function initDepartures() {
             departingTo: 'ATL',
             schedTime: {
                 hour1: 1,
-                hour2: 1,
-                min1: 3,
-                min2: 0
+                hour2: 0,
+                min1: 4,
+                min2: 3
             },
             expectedTime: {
                 hour1: 1,
-                hour2: 1,
-                min1: 3,
-                min2: 0
+                hour2: 0,
+                min1: 4,
+                min2: 3
             },
             gate: 'C10',
             status: 'On-Time'
