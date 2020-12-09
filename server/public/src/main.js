@@ -47,9 +47,9 @@ function initFlights(data) {
 
     departures.forEach(departure => {
         departureBody.appendChild(document.createElement('tr'));
-        departureBody.lastChild.classList.add(departure.status == 'Delayed' ? 'text-danger' : (departure.status == 'On-Time' ? 'text-success' : 'text-warning'))
+        departureBody.lastChild.classList.add(departure.status == 'Delayed' ? 'text-danger' : (departure.status == 'On-Time' ? 'text-success' : (departure.status == 'Departed' ? 'text-warning' : 'text-primary')))
         departureBody.lastChild
-            .innerHTML = `<td>${departure.airline}</td>
+                .innerHTML = `<td>${departure.airline}</td>
             <td>${departure.num}</td>
             <td>${departure.departingTo}</td>
             <td>${departure.schedTime.hour1}${departure.schedTime.hour2}:${departure.schedTime.min1}${departure.schedTime.min2}</td>
@@ -80,10 +80,10 @@ function renderTime() {
 
     if (time.getSeconds() % 15 == 0) {
         fetch('http://localhost:3000/api/v1/flights')
-        .then(response => response.json())
-        .then(data => {
-            initFlights(data);
-        });
+            .then(response => response.json())
+            .then(data => {
+                initFlights(data);
+            });
     }
 }
 
@@ -93,10 +93,10 @@ function renderCustom() {
 
     if (Number(setTime.split(':')[2]) % 15 == 0) {
         fetch(`http://localhost:3000/api/v1/flights?t=${setTime}`)
-        .then(response => response.json())
-        .then(data => {
-            initFlights(data);
-        });
+            .then(response => response.json())
+            .then(data => {
+                initFlights(data);
+            });
     }
 
     let sections = setTime.split(':');
@@ -132,7 +132,7 @@ function showOutbound() {
 function showIncoming() {
     outbound.style.display = 'none';
     incoming.style.display = 'block';
-}   
+}
 
 class Arrival {
     airline;
@@ -170,6 +170,6 @@ function closeHeader() {
 function forward(newTime) {
     setTime = newTime + ':00';
     clearInterval(clockInterval);
-    
+
     setInterval(renderCustom, 1000);
 }

@@ -59,7 +59,7 @@ async function updateDateCustom(customTime) {
     let foundDepartures = await Departure.find({}).catch(error => { });
 
     for (a of foundArrivals) {
-        if (a.status !== 'Landed') {
+        if (a.status !== 'Landed' && a.status !== 'Canceled') {
             if ((hour * 100) + (min) >= (a.expectedTime.hour1 * 1000) + (a.expectedTime.hour2 * 100) + (a.expectedTime.min1 * 10) + (a.expectedTime.min2)) { // Current time is passed expected time
                 a.status = 'Landed';
             }
@@ -68,7 +68,7 @@ async function updateDateCustom(customTime) {
     }
 
     for (d of foundDepartures) {
-        if (d.status !== 'Departed') {
+        if (d.status !== 'Departed' && d.status !== 'Canceled') {
             if ((hour * 100) + (min) >= (d.expectedTime.hour1 * 1000) + (d.expectedTime.hour2 * 100) + (d.expectedTime.min1 * 10) + (d.expectedTime.min2)) { // Current time is passed expected time
                 d.status = 'Departed';
             }
@@ -100,7 +100,7 @@ async function updateDate() {
     let foundDepartures = await Departure.find({}).catch(error => { });
 
     for (a of foundArrivals) {
-        if (a.status !== 'Landed') {
+        if (a.status !== 'Landed' && a.status !== 'Canceled') {
             if ((currTime.getHours() * 100) + (currTime.getMinutes()) >= (a.expectedTime.hour1 * 1000) + (a.expectedTime.hour2 * 100) + (a.expectedTime.min1 * 10) + (a.expectedTime.min2)) { // Current time is passed expected time
                 a.status = 'Landed';
             }
@@ -109,7 +109,7 @@ async function updateDate() {
     }
 
     for (d of foundDepartures) {
-        if (d.status !== 'Departed') {
+        if (d.status !== 'Departed' && d.status !== 'Canceled') {
             if ((currTime.getHours() * 100) + (currTime.getMinutes()) >= (d.expectedTime.hour1 * 1000) + (d.expectedTime.hour2 * 100) + (d.expectedTime.min1 * 10) + (d.expectedTime.min2)) { // Current time is passed expected time
                 d.status = 'Departed';
             }

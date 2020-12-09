@@ -237,7 +237,7 @@ async function initTimes() {
     for (a of foundArrivals) {
         let time = new Date();
 
-        if (a.status !== 'Landed') {
+        if (a.status !== 'Landed' && a.status !== 'Canceled') {
             if ((time.getHours() * 100) + (time.getMinutes()) >= (a.expectedTime.hour1 * 1000) + (a.expectedTime.hour2 * 100) + (a.expectedTime.min1 * 10) + (a.expectedTime.min2)) { // Current time is passed expected time
                 a.status = 'Landed';
             } else {
@@ -255,11 +255,14 @@ async function initTimes() {
     for (d of foundDepartures) {
         let time = new Date();
 
-        if (d.status !== 'Departed') {
+        if (d.status !== 'Departed' && d.status !== 'Canceled') {
             if ((time.getHours() * 100) + (time.getMinutes()) >= (d.expectedTime.hour1 * 1000) + (d.expectedTime.hour2 * 100) + (d.expectedTime.min1 * 10) + (d.expectedTime.min2)) { // Current time is passed expected time
                 d.status = 'Departed';
             } else {
-                switch (getRandomInt(1, 5)) {
+                switch (getRandomInt(1, 8)) {
+                    case 2: 
+                        d.status = 'Canceled';
+                        break;
                     case 1:
                         d.expectedTime.min1 += 1;
                         d.status = 'Delayed';
